@@ -600,6 +600,11 @@ section {
 .footer-links a:hover, .footer-social a:hover {
     color: var(--accent-gold);
 }
+.footer-logo {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    color: var(--accent-sti);
+}
 
 .footer-bottom {
     text-align: center;
@@ -607,6 +612,13 @@ section {
     padding-top: 1.5rem;
     color: var(--text-secondary);
     font-size: 0.875rem;
+}
+/* Portfolyo görsellerini yatay, geniş ve tam renkli yapar */
+.gallery-item img {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Görselleri yatay dikdörtgen (video formatı) yapar */
+    object-fit: cover; /* Görselin oranını bozmadan belirlenen alana sığdırır */
+    transition: var(--transition);
 }
 /* Tam Ekran Navigasyon Barı */
 /* --- MEDIA QUERIES (TABLET & DESKTOP) --- */
