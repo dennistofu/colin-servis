@@ -1,0 +1,692 @@
+/* --- TEMA DEĞİŞKENLERİ (Asfalt & Yarış Kırmızısı) --- */
+:root {
+    /* --- Arka Plan ve Yüzeyler --- */
+    --bg-dark: #0a0e17; /* Gece Asfaltı: Çok koyu lacivert-siyah */
+    --surface-dark: #121926; /* Kartlar için mat koyu gece mavisi */
+    --surface-border: #1e293b; /* İnce metalik çizgiler */
+    
+    /* --- Vurgu Renkleri (Eski --accent-green yerine) --- */
+    --accent-blue: #003df5; /* WR Blue: İkonik Subaru Ralli Mavisi */
+    --accent-blue-hover: #002ec2; /* Daha koyu ralli mavisi */
+    
+    /* --- Ekstra Subaru Detay Renkleri (İsteğe bağlı kullanım için) --- */
+    --accent-gold: #e5b122; /* Subaru Gold: Efsanevi jant ve logo sarısı */
+    --accent-sti: #e0045e; /* STI Cherry Blossom: Orijinal STI pembesi/kırmızısı */
+    
+    /* --- Metin ve Durum Renkleri --- */
+    --text-primary: #ffffff; /* Net beyaz yazılar */
+    --text-secondary: #94a3b8; /* Açık metalik gri alt metinler */
+    --error-red: #e0045e; /* Hata rengi olarak STI Kırmızısı kullanıldı */
+
+    /* --- Temel Ayarlar --- */
+    --transition: all 0.3s ease;
+    --border-radius: 8px;
+    --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* --- RESET & TABAN AYARLARI --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth; /* Çapa linkleri için yumuşak kaydırma */
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* --- LAYOUT UTILITIES --- */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+section {
+    padding: 5rem 0;
+}
+
+.bg-surface {
+    background-color: var(--surface-dark);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.section-header p {
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --- BUTONLAR --- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background-color: var(--accent-blue);
+    color: var(--bg-dark);
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(235, 4, 4, 0.2);
+}
+
+.btn-large {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+/* --- 1. NAVIGATION BAR --- */
+/* --- 1. NAVIGATION BAR --- */
+.header {
+    position: sticky;
+    top: 0;
+    background-color: rgba(5, 5, 5, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--surface-border);
+    z-index: 1000;
+    width: 100%;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 80px;
+    width: 100%;
+    max-width: 100%; /* 1200px kısıtlamasını ezer */
+    padding: 0 2rem; /* Sola tam yapışmasın, azıcık nefes alsın dersen 2rem. Ekrana sıfır olsun dersen 0 yapabilirsin. */
+}
+
+/* Metin Tabanlı Tipografik Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    text-decoration: none;
+    margin-right: auto; /* Logoyu zorla en sola iter */
+    transition: var(--transition);
+}
+.logo-bar-wrapper {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    padding: 20px 0;
+}
+.logo:hover {
+    color: var(--accent-gold);
+}
+.logo-bar {
+    display: flex;
+    width: max-content;
+    /* 20 saniyelik sürekli ve doğrusal bir döngü */
+    animation: scrollRight 10s linear infinite;
+}
+.logo-track {
+    display: flex;
+    align-items: center;
+    gap: 40px; 
+    padding-right: 40px;
+}
+
+/* Logo boyutlandırma ayarları */
+.trust-logo-img {
+    flex-shrink: 0; 
+    object-fit: contain;
+}
+.nav-menu {
+    display: none; /* Mobilde gizli, JS ile açılacak */
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--surface-dark);
+    padding: 1.5rem;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--surface-border);
+}
+
+.nav-menu.active {
+    display: flex;
+}
+
+.nav-menu a {
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.nav-menu a:not(.btn):hover {
+    color: var(--accent-gold);
+}
+
+/* Mobil Hamburger Butonu */
+.mobile-toggle {
+    display: block;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.hamburger, .hamburger::before, .hamburger::after {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.hamburger::before, .hamburger::after {
+    content: '';
+    position: absolute;
+}
+
+.hamburger::before { transform: translateY(-8px); }
+.hamburger::after { transform: translateY(8px); }
+
+/* --- 2. HERO SECTION --- */
+.hero {
+    padding-top: 4rem;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.hero-content h2 {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-bottom: 2rem;
+}
+
+.micro-copy {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Hero Görseli Modernizasyonu */
+.hero-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px; /* Köşeleri hafif yumuşatır */
+    object-fit: cover;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Derinlik hissi veren siyah gölge */
+    border: 1px solid var(--surface-border);
+    transition: var(--transition);
+}
+
+.hero-image img:hover {
+    transform: translateY(-5px); /* Hafif yukarı kalkma efekti */
+    border-color: var(--accent-gold);
+    box-shadow: 0 10px 40px rgba(255, 215, 0, 0.15); /* Temaya uygun altın neon parlama */
+}
+
+/* --- 3. SOCIAL PROOF --- */
+.social-proof {
+    padding: 2rem 0;
+    border-top: 1px solid var(--surface-border);
+    border-bottom: 1px solid var(--surface-border);
+    background-color: var(--bg-dark);
+}
+
+.social-proof-text {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.logo-bar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    opacity: 0.5;
+}
+
+.trust-logo {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+/* Logoları düzgün boyutlandır ve hizala */
+.trust-logo-img {
+    max-height: 80px; /* Logoların yüksekliğini sabitler */
+    width: 20rem; /* Genişliği orantılı bırakır */
+    object-fit: contain; /* Görselin kesilmesini engeller */
+    filter: grayscale(100%) opacity(0.7); /* Kurumsal ve şık durması için gri ve hafif transparan yapar */
+    transition: var(--transition);
+}
+
+.trust-logo-img:hover {
+    filter: grayscale(0%) opacity(1); /* Üzerine gelince orijinal rengi ve parlaklığı gelir */
+}
+/* --- 4 & 6. GRIDS (CARDS & TESTIMONIALS) --- */
+.cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.card, .testimonial-card {
+    background-color: var(--bg-dark); /* Surface içindeyse dark bg kontrast sağlar */
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--surface-border);
+    transition: var(--transition);
+}
+
+.card:hover {
+    border-color: var(--accent-gold);
+}
+
+.card-icon {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 61, 245, 0.1);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.card h3 { margin-bottom: 1rem; }
+.card p { color: var(--text-secondary); margin-bottom: 0.5rem; }
+.solution-text { color: var(--accent-gold) !important; margin-top: 1rem; }
+
+/* Testimonials Spesiifik */
+.stars { color: var(--accent-blue); margin-bottom: 1rem; letter-spacing: 2px; }
+.quote { font-style: italic; color: var(--text-primary); margin-bottom: 1.5rem; }
+/* --- TESTIMONIAL & AVATAR HİZALAMA --- */
+
+.client-info {
+    display: flex;
+    align-items: center; /* Avatar ve metni dikeyde tam ortalar */
+    gap: 1rem; /* Fotoğraf ile isim arasına şık bir boşluk bırakır */
+    margin-top: 1.5rem;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0; /* Ekran küçülse bile fotoğrafın ezilmesini engeller */
+}
+
+/* İsim ve unvanı alt alta dizen kapsayıcı */
+.client-info div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.client-info strong {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.client-info span {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.2rem;
+}
+
+/* --- 5. PORTFOLIO GALLERY --- */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.gallery-item img {
+    width: 100%;
+    transition: var(--transition)
+}
+
+.gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-overlay span {
+    color: var(--accent-gold);
+    font-weight: 600;
+}
+
+/* --- 7. LEAD CAPTURE (FAQ + FORM) --- */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+}
+
+/* Accordion */
+.accordion-item {
+    border-bottom: 1px solid var(--surface-border);
+}
+
+.accordion-header {
+    width: 100%;
+    text-align: left;
+    padding: 1.5rem 0;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.accordion-header::after {
+    content: '+';
+    color: var(--accent-blue);
+    font-size: 1.5rem;
+    transition: var(--transition);
+}
+
+.accordion-header[aria-expanded="true"]::after {
+    content: '-';
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.accordion-content p {
+    padding-bottom: 1.5rem;
+    color: var(--text-secondary);
+}
+
+/* Form */
+.card-form {
+    background-color: var(--surface-dark);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--surface-border);
+}
+
+.card-form h3 {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--surface-border);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-family: inherit;
+    transition: var(--transition);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+.form-group input[aria-invalid="true"] {
+    border-color: var(--error-red);
+}
+
+.error-message {
+    display: none;
+    color: var(--error-red);
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+.error-message.show {
+    display: block;
+}
+
+.form-note {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 1rem;
+}
+
+/* --- 8. FOOTER --- */
+.footer {
+    background-color: #000;
+    border-top: 1px solid var(--surface-border);
+    padding: 3rem 0 1rem;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.footer-links a, .footer-social a {
+    color: var(--text-secondary);
+    margin: 0 0.5rem;
+}
+
+.footer-links a:hover, .footer-social a:hover {
+    color: var(--accent-gold);
+}
+
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid var(--surface-border);
+    padding-top: 1.5rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+/* Tam Ekran Navigasyon Barı */
+/* --- MEDIA QUERIES (TABLET & DESKTOP) --- */
+@media (min-width: 768px) {
+    .nav-menu {
+        display: flex !important; /* JS gizlemesini ezmek için */
+        flex-direction: row;
+        position: static;
+        width: auto;
+        background-color: transparent;
+        padding: 0;
+        border: none;
+        align-items: center;
+    }
+
+    .mobile-toggle {
+        display: none;
+    }
+
+    .hero-grid {
+        grid-template-columns: 1.2fr 1fr; /* Sol taraf copy için daha geniş */
+    }
+
+    .hero-content h1 {
+        font-size: 3.5rem;
+    }
+
+    .cards-grid, .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+    }
+}
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #25d366;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    z-index: 9999;
+    transition: var(--transition);
+    animation: pulse-whatsapp 2s infinite;
+}
+
+.whatsapp-float:hover {
+    background-color: #1ebe57;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 61, 245, 0.6);
+    animation: none; /* Üzerine gelince animasyon dursun */
+}
+
+@keyframes pulse-whatsapp {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+    70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+@media (min-width: 1024px) {
+    .cards-grid, .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .whatsapp-float {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+    }
+    .whatsapp-float svg {
+        width: 26px;
+        height: 26px;
+    }
+}
+@keyframes scrollRight {
+    0% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
