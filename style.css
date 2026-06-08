@@ -161,13 +161,20 @@ section {
 .logo {
     display: flex;
     align-items: center;
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    color: var(--text-primary);
     text-decoration: none;
     margin-right: auto; /* Logoyu zorla en sola iter */
     transition: var(--transition);
+}
+.logo img {
+    height: 80px; /* Navbar yüksekliğine (80px) göre ideal boyut. İsteğe göre 45px-55px yapılabilir */
+    width: auto;
+    object-fit: contain;
+    transition: var(--transition);
+}
+/* Görsel logo için hover efekti (Metin rengi değişemeyeceği için hafif opaklık verdik) */
+.logo:hover img {
+    opacity: 0.85;
+    transform: scale(1.02); /* Üzerine gelince çok hafif büyür */
 }
 .logo-bar-wrapper {
     overflow: hidden;
@@ -193,8 +200,11 @@ section {
 
 /* Logo boyutlandırma ayarları */
 .trust-logo-img {
-    flex-shrink: 0; 
+    max-height: 40px; /* Logoların dikeyde çok büyümesini engeller */
+    width: auto; /* Genişliği orijinal oranında korur */
     object-fit: contain;
+    filter: grayscale(100%) opacity(0.6);
+    transition: var(--transition);
 }
 .nav-menu {
     display: none; /* Mobilde gizli, JS ile açılacak */
